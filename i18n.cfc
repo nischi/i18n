@@ -54,8 +54,12 @@
 	<cfif NOT len(local.keyString)>
 		<cfset local.keyString = arguments.missing />
 
-		<cfif structKeyExists(variables,'parent') AND variables.parent.containsKey(argumentCollection=arguments)>
-			<cfset local.keyString = variables.parent.getKey(argumentCollection=arguments) />
+		<cfif structKeyExists(variables,'parent')>
+			<cfif structKeyExists(variables.parent,'getKeyValue')>
+				<cfset local.keyString = variables.parent.getKeyValue(argumentCollection=arguments) />
+			<cfelse>
+				<cfset local.keyString = variables.parent.getKey(argumentCollection=arguments) />
+			</cfif>
 		</cfif>
 	</cfif>
 
